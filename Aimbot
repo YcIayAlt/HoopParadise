@@ -1,0 +1,40 @@
+local plr = game.Players.LocalPlayer -- LocalPlayer variable
+local uis = game:GetService("UserInputService") -- UserInputService variable
+local ws = game:GetService("Workspace") -- Workspace variable
+
+-- Finding Goal 
+local goals = {} -- Goal Table
+for _, Obj in next, ws:GetDescendants() do -- Looking through everything in workspace
+    if Obj.Name == ("_Home") and Obj:isA("Part") then -- if its a part and its named _Home
+        table.insert(goals, Obj) -- put that mf in the table
+    elseif Obj.Name == ("_Away") and Obj:isA("Part") then -- if its a part and its named _Away
+        table.insert(goals, Obj) -- put that mf in the table
+    elseif Obj.Name == ("Goal") and Obj:isA("Part") then -- if its a part and its named _Goal
+        table.insert(goals, Obj) -- put that mf in the table
+    end -- END THAT MF
+end -- nigero a munch
+
+local GoalInfo = function() -- GoalInfo Function
+    local goal, dist = nil, 9e9 -- 9e9 is to the nine to the power of nine
+    for _, obj in ipairs(goals) do -- looking through the goal table
+        local mag = (plr.Character.HumanoidRootPart.Position - obj.Position).Magnitude -- studs between player and goal
+        if dist > mag then -- if 9e9 is bigger number than mag then
+            dist = mag -- self explanatory
+            goal = obj -- also self explanatory
+        end -- I cannot understand a thing yeat is saying.
+    end -- FUCKING THE BADDEST
+    return goal -- returning goal
+end -- Baby would you please come back to me 🤧♥
+
+function Shoot() -- shooting function
+    local goal = GoalInfo() -- you can read right?
+    if plr.Character:FindFirstChild("Ball") then -- you need ball before shooting btw LMAO
+        plr.Character.Ball.shoot:FireServer(goal.Position + Vector3.new(0, 105, 0), 100) -- {Vector3.new() is where your aiming at the goal, (X,Y,Z) axis. Learn math nigga)}
+    end -- Chicken noodle soup choppa cook a nigga shit up
+end -- baby Gurll!!
+
+game:GetService("UserInputService").InputBegan:Connect(function(Key) -- Making a function with Key
+    if Key.KeyCode == Enum.KeyCode.X then -- Key = x
+    Shoot() -- shooting function which basically fires the remoteevent.
+    end -- thank you for dealing with my bullshit.
+end) -- Open source, ya welcum <3
